@@ -9,6 +9,8 @@ import Data.Matrix (Matrix(..),toList,submatrix)
 import Data.Matrix.AsXYZ
 import qualified Data.Matrix as M
 
+import Numeric
+
 import Data.Matrix.SymmetryOperationsSymbols.Common
 
 type SeitzSymbol a = (String,String,(a,a,a),(Ratio a,Ratio a,Ratio a))
@@ -131,9 +133,6 @@ seitzSymbol = do
   optionSpaces
   char '}'
   return (sy,si,o,(p,q,r))
-
-transformCoordinate' (_,_,symbolLabel,sense,_,orientation,transformedCoordinate,_)
-  = ( (symbolLabel,sense,orientation), transformedCoordinate )
 
 toMatrix tbl (sy,si,(o1,o2,o3),(p,q,r)) = build p q r <$> result
   where
