@@ -1,13 +1,18 @@
-module Data.Matrix.SeitzSymbol.Parser where
+module Data.Matrix.SeitzSymbol.Parser (
+  seitzSymbol,
+  toMatrix,
+  toSeitzSymbol,
+  toString
+  ) where
 
 import Data.Ratio
 import Text.Parsec
 import Text.Parsec.String (Parser)
 
 import Data.Ratio.Slash
-import Data.Matrix (Matrix(..),toList,submatrix)
+import Data.Matrix (Matrix(..),fromLists,toList,submatrix)
 import Data.Matrix.AsXYZ
-import qualified Data.Matrix as M
+import qualified Data.Matrix as M ((<->),(<|>))
 
 import Numeric
 
@@ -139,10 +144,10 @@ toMatrix tbl (sy,si,(o1,o2,o3),(p,q,r)) = build p q r <$> result
     transformCoordinate (_,_,symbolLabel,sense,_,orientation,transformedCoordinate,_)
       = ( (symbolLabel,sense,if null orientation then [0,0,0] else orientation), transformedCoordinate )
     result = lookup (sy,si,[o1,o2,o3]) $ map transformCoordinate tbl
-    build p q r xyz = _W M.<|> _w M.<-> M.fromLists [[0,0,0,1]]
+    build p q r xyz = _W M.<|> _w M.<-> fromLists [[0,0,0,1]]
       where
-        _W = M.submatrix 1 3 1 3 . fromXYZ $ xyz
-        _w = M.fromLists [[p],[q],[r]]
+        _W = submatrix 1 3 1 3 . fromXYZ $ xyz
+        _w = fromLists [[p],[q],[r]]
 
 toString ("1",si,(o1,o2,o3),(p,q,r))
   = "{ " ++ "1"
@@ -159,9 +164,11 @@ toString (sy,si,(o1,o2,o3),(p,q,r))
 toSeitzSymbol :: Integral a => Matrix (Ratio a) -> Maybe (SeitzSymbol a)
 toSeitzSymbol m = lookup w $ map tt properTbl
   where
-    w = submatrix 1 3 1 3 m
-    p:q:r:[] = toList . submatrix 1 3 4 4 $ m
+    getW = submatrix 1 3 1 3
+    getw = submatrix 1 3 4 4
+    w = getW m
+    p:q:r:[] = toList . getw $ m
     tt (_,_,symbolLabel,sense,_,(o1:o2:o3:_),transformedCoordinate,_)
-      = (submatrix 1 3 1 3 . fromXYZ $ transformedCoordinate, (symbolLabel,sense,(o1,o2,o3),(p,q,r)))
+      = (getW . fromXYZ $ transformedCoordinate, (symbolLabel,sense,(o1,o2,o3),(p,q,r)))
     tt (_,_,symbolLabel,sense,_,[],transformedCoordinate,_)
-      = (submatrix 1 3 1 3 . fromXYZ $ transformedCoordinate, (symbolLabel,sense,(0,0,0),(p,q,r)))
+      = (getW . fromXYZ $ transformedCoordinate, (symbolLabel,sense,(0,0,0),(p,q,r)))

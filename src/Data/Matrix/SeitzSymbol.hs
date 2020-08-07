@@ -8,7 +8,7 @@ import Text.Parsec.String (Parser)
 import Data.Ratio
 import Data.Matrix
 import Data.Matrix.AsXYZ
-import qualified Data.Matrix.SeitzSymbol.Parser as P
+import qualified Data.Matrix.SeitzSymbol.Parser as P (seitzSymbol,toMatrix,toSeitzSymbol,toString)
 import Data.Matrix.SymmetryOperationsSymbols.Common (properTbl,hexagonalTbl)
 
 -- | for all lattice type exclude hexagonal
