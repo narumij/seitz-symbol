@@ -23,8 +23,10 @@ dependencies:
 - base >= 4.8 && < 5
 - parsec
 - matrix
-- matrix-as-xyz
-- symmetry-operations-symbols
+- matrix-as-xyz >= 0.1.2 && < 0.2
+- symmetry-operations-symbols >= 0.0.2 && < 0.1
+- hspec
+- doctest
 
 library:
   source-dirs: src
@@ -39,3 +41,12 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - seitz-symbol
+
+  doctest:
+    main:                test/doctests.hs
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - matrix-as-xyz
