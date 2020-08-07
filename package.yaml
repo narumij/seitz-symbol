@@ -1,7 +1,7 @@
 name:                seitz-symbol
 version:             0.1.0.0
 github:              "narumij/seitz-symbol"
-license:             BSD3
+license:             MIT
 author:              "Jun Narumi"
 maintainer:          "narumij@gmail.com"
 copyright:           "Jun Narumi"
@@ -21,6 +21,9 @@ description:         Please see the README on GitHub at <https://github.com/naru
 
 dependencies:
 - base >= 4.7 && < 5
+- parsec
+- matrix
+- matrix-as-xyz
 
 library:
   source-dirs: src

@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: e5caef59d5d933b2e4469185bab9c22dcedb620fa571490988ee71be4e282df8
+-- hash: b060b07807f668800d05ff38fce198e1ba985dcde624ee2fa6b4343b5ae26b91
 
 name:           seitz-symbol
 version:        0.1.0.0
@@ -14,7 +14,7 @@ bug-reports:    https://github.com/narumij/seitz-symbol/issues
 author:         Jun Narumi
 maintainer:     narumij@gmail.com
 copyright:      Jun Narumi
-license:        BSD3
+license:        MIT
 license-file:   LICENSE
 build-type:     Simple
 extra-source-files:
@@ -27,6 +27,9 @@ source-repository head
 
 library
   exposed-modules:
+      Data.Matrix.SeitzSymbol
+      Data.Matrix.SeitzSymbol.Parser
+      Data.Matrix.SeitzSymbol.Table
       Lib
   other-modules:
       Paths_seitz_symbol
@@ -34,6 +37,9 @@ library
       src
   build-depends:
       base >=4.7 && <5
+    , matrix
+    , matrix-as-xyz
+    , parsec
   default-language: Haskell2010
 
 executable seitz-symbol-exe
@@ -45,6 +51,9 @@ executable seitz-symbol-exe
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
+    , matrix
+    , matrix-as-xyz
+    , parsec
     , seitz-symbol
   default-language: Haskell2010
 
@@ -58,5 +67,8 @@ test-suite seitz-symbol-test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
+    , matrix
+    , matrix-as-xyz
+    , parsec
     , seitz-symbol
   default-language: Haskell2010
