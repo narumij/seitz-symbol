@@ -24,6 +24,7 @@ dependencies:
 - parsec
 - matrix
 - matrix-as-xyz
+- symmetry-operations-symbols
 
 library:
   source-dirs: src

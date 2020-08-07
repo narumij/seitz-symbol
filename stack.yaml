@@ -40,6 +40,9 @@ packages:
 #   commit: e7b331f14bcffb8367cd58fbfc8b40ec7642100a
 #
 # extra-deps: []
+extra-deps:
+  - matrix-as-xyz-0.1.2.1
+  - location: https://github.com/narumij/symmetry-operations-symbols/archive/0.0.2.0.dev2.tar.gz
 
 # Override default flag values for local packages and extra-deps
 # flags: {}

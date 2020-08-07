@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 48fef832f86ed4a382fc85c42ecf40b532925147bc2360c70a312abb89f08049
+-- hash: cb95f4ee0639a55c00562e8fade4d46a0a34049ee7fb4000310bcc94c5fb4d0c
 
 name:           seitz-symbol
 version:        0.1.0.0
@@ -29,7 +29,6 @@ library
   exposed-modules:
       Data.Matrix.SeitzSymbol
       Data.Matrix.SeitzSymbol.Parser
-      Data.Matrix.SeitzSymbol.Table
   other-modules:
       Paths_seitz_symbol
   hs-source-dirs:
@@ -39,6 +38,7 @@ library
     , matrix
     , matrix-as-xyz
     , parsec
+    , symmetry-operations-symbols
   default-language: Haskell2010
 
 test-suite seitz-symbol-test
@@ -55,4 +55,5 @@ test-suite seitz-symbol-test
     , matrix-as-xyz
     , parsec
     , seitz-symbol
+    , symmetry-operations-symbols
   default-language: Haskell2010

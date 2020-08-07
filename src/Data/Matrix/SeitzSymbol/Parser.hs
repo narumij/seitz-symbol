@@ -4,7 +4,6 @@ import Data.Ratio
 import Text.Parsec
 import Text.Parsec.String (Parser)
 
-import Data.Matrix.SeitzSymbol.Table
 import Data.Matrix.AsXYZ
 import qualified Data.Matrix as M
 
@@ -110,8 +109,8 @@ matrix = try a <|> b
       s <- identity
       return (s,"",(0,0,0))
 
-parser' :: (Integral a, Read a) => Parser (String,String,(a,a,a),(Ratio a,Ratio a,Ratio a))
-parser' = do
+parser :: (Integral a, Read a) => Parser (String,String,(a,a,a),(Ratio a,Ratio a,Ratio a))
+parser = do
   char '{'
   optionSpaces
   (sy,si,o) <- matrix
@@ -130,9 +129,10 @@ parser' = do
 transformCoordinate' (_,_,symbolLabel,sense,_,orientation,transformedCoordinate,_)
   = ( (symbolLabel,sense,orientation), transformedCoordinate )
 
-seitzSymbol = do
-  (sy,si,(o1,o2,o3),(p,q,r)) <- parser'
-  let result = lookup (sy,si,[o1,o2,o3]) $ map transformCoordinate' tbl
+-- seitzSymbol :: (Integral a, Read a) => Parser (M.Matrix (Ratio a))
+seitzSymbol table = do
+  (sy,si,(o1,o2,o3),(p,q,r)) <- parser
+  let result = lookup (sy,si,[o1,o2,o3]) $ map transformCoordinate' table
   case result of
     Just xyz -> return (build xyz p q r)
     Nothing -> parserFail "seitz matrix not found"
