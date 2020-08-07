@@ -1,5 +1,5 @@
 name:                seitz-symbol
-version:             0.1.0.0
+version:             0.0.0.1
 github:              "narumij/seitz-symbol"
 license:             MIT
 author:              "Jun Narumi"
@@ -20,7 +20,7 @@ extra-source-files:
 description:         Please see the README on GitHub at <https://github.com/narumij/seitz-symbol#readme>
 
 dependencies:
-- base >= 4.7 && < 5
+- base >= 4.8 && < 5
 - parsec
 - matrix
 - matrix-as-xyz

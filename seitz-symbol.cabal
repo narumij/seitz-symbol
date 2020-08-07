@@ -4,10 +4,10 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: cb95f4ee0639a55c00562e8fade4d46a0a34049ee7fb4000310bcc94c5fb4d0c
+-- hash: 9a13dfb5221a002d014050803c91c2fa1e6316a4dc495137e96b1c36f4df9ade
 
 name:           seitz-symbol
-version:        0.1.0.0
+version:        0.0.0.1
 description:    Please see the README on GitHub at <https://github.com/narumij/seitz-symbol#readme>
 homepage:       https://github.com/narumij/seitz-symbol#readme
 bug-reports:    https://github.com/narumij/seitz-symbol/issues
@@ -34,7 +34,7 @@ library
   hs-source-dirs:
       src
   build-depends:
-      base >=4.7 && <5
+      base >=4.8 && <5
     , matrix
     , matrix-as-xyz
     , parsec
@@ -50,7 +50,7 @@ test-suite seitz-symbol-test
       test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
+      base >=4.8 && <5
     , matrix
     , matrix-as-xyz
     , parsec
