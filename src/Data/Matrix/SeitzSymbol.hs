@@ -11,7 +11,7 @@ import Data.Matrix.AsXYZ
 import qualified Data.Matrix.SeitzSymbol.Parser as P
 import Data.Matrix.SymmetryOperationsSymbols.Common (properTbl,hexagonalTbl)
 
--- |
+-- | for all lattice type exclude hexagonal
 --
 -- >>> prettyXYZ <$> fromSeitzSymbol "{ 1 | 0 0 0 }"
 -- Right "x,y,z"
@@ -27,6 +27,7 @@ fromSeitzSymbol s = parse parser s s
         Just m -> return m
         Nothing -> parserFail "Matrix not found."
 
+-- | for Hexagonal
 fromSeitzSymbolH s = parse parser s s
   where
     parser :: (Integral a, Read a) => Parser (Matrix (Ratio a))

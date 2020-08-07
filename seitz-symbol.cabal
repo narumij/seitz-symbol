@@ -4,10 +4,10 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 837209221481384ebc07abaf63551a77a0fd0a9afade43b2cee0de83a92d188c
+-- hash: 99f491fd444c4b87e03e14bd52ae881ddfb0fce3f09fb2cee70950f48533fcb5
 
 name:           seitz-symbol
-version:        0.0.0.1
+version:        0.1.0.0
 description:    Please see the README on GitHub at <https://github.com/narumij/seitz-symbol#readme>
 homepage:       https://github.com/narumij/seitz-symbol#readme
 bug-reports:    https://github.com/narumij/seitz-symbol/issues
