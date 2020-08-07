@@ -5,6 +5,6 @@ module Data.Matrix.SeitzSymbol (
 import Text.Parsec
 import Data.Matrix.SeitzSymbol.Parser
 
-fromSeitzSymbol s = parse parser s s
+fromSeitzSymbol s = parse seitzSymbol s s
 
 

@@ -127,11 +127,12 @@ parser' = do
   char '}'
   return (sy,si,o,(p,q,r))
 
-hoge (_,_,symbolLabel,sense,_,orientation,transformedCoordinate,_) = ((symbolLabel,sense,orientation),transformedCoordinate)
+transformCoordinate' (_,_,symbolLabel,sense,_,orientation,transformedCoordinate,_)
+  = ( (symbolLabel,sense,orientation), transformedCoordinate )
 
-parser = do
+seitzSymbol = do
   (sy,si,(o1,o2,o3),(p,q,r)) <- parser'
-  let result = lookup (sy,si,[o1,o2,o3]) $ map hoge tbl
+  let result = lookup (sy,si,[o1,o2,o3]) $ map transformCoordinate' tbl
   case result of
     Just xyz -> return (build xyz p q r)
     Nothing -> parserFail "seitz matrix not found"
