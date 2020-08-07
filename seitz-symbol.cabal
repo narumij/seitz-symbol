@@ -1,0 +1,62 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.33.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: e5caef59d5d933b2e4469185bab9c22dcedb620fa571490988ee71be4e282df8
+
+name:           seitz-symbol
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/narumij/seitz-symbol#readme>
+homepage:       https://github.com/narumij/seitz-symbol#readme
+bug-reports:    https://github.com/narumij/seitz-symbol/issues
+author:         Jun Narumi
+maintainer:     narumij@gmail.com
+copyright:      Jun Narumi
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/narumij/seitz-symbol
+
+library
+  exposed-modules:
+      Lib
+  other-modules:
+      Paths_seitz_symbol
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+  default-language: Haskell2010
+
+executable seitz-symbol-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_seitz_symbol
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , seitz-symbol
+  default-language: Haskell2010
+
+test-suite seitz-symbol-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_seitz_symbol
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , seitz-symbol
+  default-language: Haskell2010
