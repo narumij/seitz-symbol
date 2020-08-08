@@ -45,8 +45,8 @@ spec = do
           `shouldBe` Right " 2  x,0,0"
 
       it "toSeitzSymbol" $ do
-        (toSeitzSymbol . fromXYZ $ "x,y,z")
+        (toSeitzSymbolS . fromXYZ $ "x,y,z")
           `shouldBe` Just "{ 1 | 0 0 0 }"
-        (toSeitzSymbol . fromXYZ $ "-x+1/2,y+1/2,-z+1/2")
+        (toSeitzSymbolS . fromXYZ $ "-x+1/2,y+1/2,-z+1/2")
           `shouldBe` Just "{ 2 010 | 1/2 1/2 1/2 }"
 

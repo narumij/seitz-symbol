@@ -17,7 +17,7 @@ module Data.Matrix.SeitzSymbol (
   P.SeitzSymbol(..),
   fromSeitzSymbolS,
   fromSeitzSymbolHexS,
-  toSeitzSymbol,
+  toSeitzSymbolS,
   ) where
 
 import Text.Parsec
@@ -87,16 +87,16 @@ fromSeitzSymbolS s = parse (parser properMatricesForPointGroup) s s
 -- Right " 2  x,0,0"
 --
 fromSeitzSymbolHexS :: (Integral a, Read a) =>
-                     String
-                  -> Either ParseError (Matrix (Ratio a))
+                       String
+                    -> Either ParseError (Matrix (Ratio a))
 fromSeitzSymbolHexS s = parse (parser hexagonalMatricesForPointGroup) s s
 
 -- |
 --
--- >>> toSeitzSymbol . fromXYZ $ "x,y,z"
+-- >>> toSeitzSymbolS . fromXYZ $ "x,y,z"
 -- Just "{ 1 | 0 0 0 }"
--- >>> toSeitzSymbol . fromXYZ $ "-x+1/2,y+1/2,-z+1/2"
+-- >>> toSeitzSymbolS . fromXYZ $ "-x+1/2,y+1/2,-z+1/2"
 -- Just "{ 2 010 | 1/2 1/2 1/2 }"
 --
-toSeitzSymbol :: (Integral a, Show a) => Matrix (Ratio a) -> Maybe String
-toSeitzSymbol m = P.toString <$> P.toSeitzSymbol m
+toSeitzSymbolS :: (Integral a, Show a) => Matrix (Ratio a) -> Maybe String
+toSeitzSymbolS m = P.toString <$> P.toSeitzSymbol m
