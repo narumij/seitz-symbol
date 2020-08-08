@@ -1,4 +1,20 @@
+{- |
+Module      : Data.Matrix.SeitzSymbol.Parser
+Copyright   : (c) Jun Narumi 2020
+License     : MIT
+Maintainer  : narumij@gmail.com
+Stability   : experimental
+
+Seitz Symbol parser and etc.
+
+[References]
+
+ネスポロ マッシモ:日本結晶学会誌 59，210-222(2017).
+https://www.jstage.jst.go.jp/article/jcrsj/59/5/59_210/_pdf
+
+-}
 module Data.Matrix.SeitzSymbol.Parser (
+  SeitzSymbol(..),
   seitzSymbol,
   toMatrix,
   toSeitzSymbol,
@@ -56,6 +72,11 @@ one = do
   char '1'
   return 1
 
+two :: Num a => Parser a
+two = do
+  char '2'
+  return 2
+
 minus :: Num a => Parser a
 minus = do
   string "-1"
@@ -63,7 +84,7 @@ minus = do
 
 d :: Num a => Parser a
 d = do
-  a <- (zero <|> one <|> minus)
+  a <- (zero <|> one <|> two <|> minus)
   return a
 
 orientation :: Num a => Parser (a,a,a)

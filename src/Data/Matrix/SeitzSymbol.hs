@@ -1,4 +1,20 @@
+{- |
+Module      : Data.Matrix.SeitzSymbol
+Copyright   : (c) Jun Narumi 2020
+License     : MIT
+Maintainer  : narumij@gmail.com
+Stability   : experimental
+
+Read and Display Seitz Symbol
+
+[References]
+
+ネスポロ マッシモ:日本結晶学会誌 59，210-222(2017).
+https://www.jstage.jst.go.jp/article/jcrsj/59/5/59_210/_pdf
+
+-}
 module Data.Matrix.SeitzSymbol (
+  P.SeitzSymbol(..),
   fromSeitzSymbol,
   fromSeitzSymbolH,
   toSeitzSymbol,
@@ -10,8 +26,13 @@ import Text.Parsec.String (Parser)
 import Data.Ratio (Ratio(..))
 import Data.Matrix (Matrix(..))
 import Data.Matrix.AsXYZ (fromXYZ,prettyXYZ)
-import qualified Data.Matrix.SeitzSymbol.Parser as P (seitzSymbol,toMatrix,toSeitzSymbol,toString)
-import Data.Matrix.SymmetryOperationsSymbols.Common (properMatricesForPointGroup,hexagonalMatricesForPointGroup,MatrixForPointGroupCorrespondingSymmetryElement(..))
+import qualified Data.Matrix.SeitzSymbol.Parser
+  as P (SeitzSymbol(..),seitzSymbol,toMatrix,toSeitzSymbol,toString)
+import Data.Matrix.SymmetryOperationsSymbols.Common (
+  properMatricesForPointGroup,
+  hexagonalMatricesForPointGroup,
+  MatrixForPointGroupCorrespondingSymmetryElement(..)
+  )
 
 parser :: (Integral a, Read a) => 
           [MatrixForPointGroupCorrespondingSymmetryElement a]
@@ -32,6 +53,9 @@ parser tbl = do
 -- Right "z+1/2,x+1/2,y+1/2"
 -- >>> prettyXYZ <$> fromSeitzSymbol "{ -3+ 111 | 1/2 1/2 1/2 }"
 -- Right "-z+1/2,-x+1/2,-y+1/2"
+-- >>> prettyXYZ <$> fromSeitzSymbol "{ m 100 | 0 0 0 }"
+-- Right "-x,y,z"
+
 --
 fromSeitzSymbol :: (Integral a, Read a) =>
                    SourceName
@@ -39,6 +63,14 @@ fromSeitzSymbol :: (Integral a, Read a) =>
 fromSeitzSymbol s = parse (parser properMatricesForPointGroup) s s
 
 -- | for Hexagonal
+--
+-- >>> prettyXYZ <$> fromSeitzSymbolH "{ m 100 | 0 0 0 }"
+-- Right "y-x,y,z"
+-- >>> prettyXYZ <$> fromSeitzSymbolH "{ m 120 | 0 0 0 }"
+-- Right "x-y,-y,z"
+-- >>> prettyXYZ <$> fromSeitzSymbolH "{ 2 100 | 0 0 0 }"
+-- Right "x-y,-y,-z"
+--
 fromSeitzSymbolH :: (Integral a, Read a) =>
                      String
                   -> Either ParseError (Matrix (Ratio a))

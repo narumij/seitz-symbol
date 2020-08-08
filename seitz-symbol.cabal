@@ -4,11 +4,13 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 99f491fd444c4b87e03e14bd52ae881ddfb0fce3f09fb2cee70950f48533fcb5
+-- hash: c3116867b4dd745a6b80876277fc34bbef274e559c07ec9af5fd82535b5e11eb
 
 name:           seitz-symbol
 version:        0.1.0.0
+synopsis:       Read and Display Seitz Symbol
 description:    Please see the README on GitHub at <https://github.com/narumij/seitz-symbol#readme>
+category:       Chemistry
 homepage:       https://github.com/narumij/seitz-symbol#readme
 bug-reports:    https://github.com/narumij/seitz-symbol/issues
 author:         Jun Narumi
