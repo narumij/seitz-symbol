@@ -4,11 +4,13 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 9a13dfb5221a002d014050803c91c2fa1e6316a4dc495137e96b1c36f4df9ade
+-- hash: aac4a74e702c15eba8781c0463536c5464ee659ff3e296d75a8417ddba9c293f
 
 name:           seitz-symbol
-version:        0.0.0.1
+version:        0.1.0.0
+synopsis:       Read and Display Seitz Symbol
 description:    Please see the README on GitHub at <https://github.com/narumij/seitz-symbol#readme>
+category:       Chemistry
 homepage:       https://github.com/narumij/seitz-symbol#readme
 bug-reports:    https://github.com/narumij/seitz-symbol/issues
 author:         Jun Narumi
@@ -35,25 +37,46 @@ library
       src
   build-depends:
       base >=4.8 && <5
+    , doctest
+    , hspec
+    , matrix
+    , matrix-as-xyz >=0.1.2 && <0.2
+    , parsec
+    , symmetry-operations-symbols >=0.0.2 && <0.1
+  default-language: Haskell2010
+
+test-suite seitz-symbol-doctest
+  type: exitcode-stdio-1.0
+  main-is: test/doctests.hs
+  other-modules:
+      Paths_seitz_symbol
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.8 && <5
+    , doctest
+    , hspec
     , matrix
     , matrix-as-xyz
     , parsec
-    , symmetry-operations-symbols
+    , symmetry-operations-symbols >=0.0.2 && <0.1
   default-language: Haskell2010
 
 test-suite seitz-symbol-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
+      SetizSymbolSpec
       Paths_seitz_symbol
   hs-source-dirs:
       test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.8 && <5
+    , doctest
+    , hspec
     , matrix
-    , matrix-as-xyz
+    , matrix-as-xyz >=0.1.2 && <0.2
     , parsec
     , seitz-symbol
-    , symmetry-operations-symbols
+    , symmetry-operations-symbols >=0.0.2 && <0.1
   default-language: Haskell2010

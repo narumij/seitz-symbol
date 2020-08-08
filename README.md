@@ -4,6 +4,12 @@
 [![Hackage page (downloads and API reference)][hackage-png]][hackage]
 [![Hackage-Deps][hackage-deps-png]][hackage-deps]
 
+## References
+
+ネスポロ マッシモ:日本結晶学会誌 59，210-222(2017).
+
+https://www.jstage.jst.go.jp/article/jcrsj/59/5/59_210/_pdf
+
 ## Quickstart
 
  [hackage]: http://hackage.haskell.org/package/seitz-symbol

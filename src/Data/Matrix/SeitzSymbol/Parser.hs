@@ -1,11 +1,38 @@
-module Data.Matrix.SeitzSymbol.Parser where
+{- |
+Module      : Data.Matrix.SeitzSymbol.Parser
+Copyright   : (c) Jun Narumi 2020
+License     : MIT
+Maintainer  : narumij@gmail.com
+Stability   : experimental
 
-import Data.Ratio
+Seitz Symbol parser and etc.
+
+[References]
+
+ネスポロ マッシモ:日本結晶学会誌 59，210-222(2017).
+https://www.jstage.jst.go.jp/article/jcrsj/59/5/59_210/_pdf
+
+-}
+module Data.Matrix.SeitzSymbol.Parser (
+  SeitzSymbol(..),
+  seitzSymbol,
+  toMatrix,
+  toSeitzSymbol,
+  toString,
+  ) where
+
+import Data.Ratio (Ratio(..),(%))
 import Text.Parsec
 import Text.Parsec.String (Parser)
 
-import Data.Matrix.AsXYZ
-import qualified Data.Matrix as M
+import Data.Ratio.Slash (Slash(..))
+import Data.Matrix (Matrix(..),fromLists,toList,submatrix)
+import Data.Matrix.AsXYZ (fromXYZ)
+import qualified Data.Matrix as M ((<->),(<|>))
+
+import Data.Matrix.SymmetryOperationsSymbols.Common (properMatricesForPointGroup,MatrixForPointGroupCorrespondingSymmetryElement(..))
+
+type SeitzSymbol a = (String,String,(a,a,a),(Ratio a,Ratio a,Ratio a))
 
 optionSpaces :: Parser ()
 optionSpaces = skipMany space
@@ -45,6 +72,11 @@ one = do
   char '1'
   return 1
 
+two :: Num a => Parser a
+two = do
+  char '2'
+  return 2
+
 minus :: Num a => Parser a
 minus = do
   string "-1"
@@ -52,7 +84,7 @@ minus = do
 
 d :: Num a => Parser a
 d = do
-  a <- (zero <|> one <|> minus)
+  a <- (zero <|> one <|> two <|> minus)
   return a
 
 orientation :: Num a => Parser (a,a,a)
@@ -97,8 +129,8 @@ number :: (Integral a, Read a) => Parser (Ratio a)
 number = do
   try fract <|> integer
 
-matrix :: Num a => Parser (String,String,(a,a,a))
-matrix = try a <|> b
+matrixPart :: Num a => Parser (String,String,(a,a,a))
+matrixPart = try a <|> b
   where
     a = do
       (sy,si) <- symbol
@@ -109,11 +141,11 @@ matrix = try a <|> b
       s <- identity
       return (s,"",(0,0,0))
 
-parser :: (Integral a, Read a) => Parser (String,String,(a,a,a),(Ratio a,Ratio a,Ratio a))
-parser = do
+seitzSymbol :: (Integral a, Read a) => Parser (SeitzSymbol a)
+seitzSymbol = do
   char '{'
   optionSpaces
-  (sy,si,o) <- matrix
+  (sy,si,o) <- matrixPart
   optionSpaces
   char '|'
   optionSpaces
@@ -126,19 +158,42 @@ parser = do
   char '}'
   return (sy,si,o,(p,q,r))
 
-transformCoordinate' (_,_,symbolLabel,sense,_,orientation,transformedCoordinate,_)
-  = ( (symbolLabel,sense,orientation), transformedCoordinate )
-
--- seitzSymbol :: (Integral a, Read a) => Parser (M.Matrix (Ratio a))
-seitzSymbol table = do
-  (sy,si,(o1,o2,o3),(p,q,r)) <- parser
-  let result = lookup (sy,si,[o1,o2,o3]) $ map transformCoordinate' table
-  case result of
-    Just xyz -> return (build xyz p q r)
-    Nothing -> parserFail "seitz matrix not found"
+toMatrix :: (Integral a,Read a) =>
+            [MatrixForPointGroupCorrespondingSymmetryElement a]
+          -> SeitzSymbol a
+          -> Maybe (Matrix (Ratio a))
+toMatrix tbl (sy,si,(o1,o2,o3),(p,q,r)) = build p q r <$> result
   where
-    build xyz p q r = _W M.<|> _w M.<-> M.fromLists [[0,0,0,1]]
+    transformCoordinate (_,_,symbolLabel,sense,_,orientation,transformedCoordinate,_)
+      = ( (symbolLabel,sense,if null orientation then [0,0,0] else orientation), transformedCoordinate )
+    result = lookup (sy,si,[o1,o2,o3]) $ map transformCoordinate tbl
+    build p q r xyz = _W M.<|> _w M.<-> fromLists [[0,0,0,1]]
       where
-        _W = M.submatrix 1 3 1 3 . fromXYZ $ xyz
-        _w = M.fromLists [[p],[q],[r]]
+        _W = submatrix 1 3 1 3 . fromXYZ $ xyz
+        _w = fromLists [[p],[q],[r]]
+
+toString :: (Integral a, Show a) => SeitzSymbol a -> String
+toString ("1",si,(o1,o2,o3),(p,q,r))
+  = "{ " ++ "1"
+  ++ " | "
+  ++ show (Slash p) ++ " " ++ show (Slash q) ++ " " ++ show (Slash r)
+  ++ " }"
+toString (sy,si,(o1,o2,o3),(p,q,r))
+  = "{ " ++ sy ++ si ++ " "
+  ++ show o1 ++ show o2 ++ show o3
+  ++ " | "
+  ++ show (Slash p) ++ " " ++ show (Slash q) ++ " " ++ show (Slash r)
+  ++ " }"
+
+toSeitzSymbol :: Integral a => Matrix (Ratio a) -> Maybe (SeitzSymbol a)
+toSeitzSymbol m = lookup w $ map tt properMatricesForPointGroup
+  where
+    getW = submatrix 1 3 1 3
+    getw = submatrix 1 3 4 4
+    w = getW m
+    p:q:r:[] = toList . getw $ m
+    tt (_,_,symbolLabel,sense,_,(o1:o2:o3:_),transformedCoordinate,_)
+      = (getW . fromXYZ $ transformedCoordinate, (symbolLabel,sense,(o1,o2,o3),(p,q,r)))
+    tt (_,_,symbolLabel,sense,_,[],transformedCoordinate,_)
+      = (getW . fromXYZ $ transformedCoordinate, (symbolLabel,sense,(0,0,0),(p,q,r)))
 
