@@ -18,7 +18,7 @@ module Data.Matrix.SeitzSymbol.Parser (
   seitzSymbol,
   toMatrix,
   toSeitzSymbol,
-  toString
+  toString,
   ) where
 
 import Data.Ratio (Ratio(..),(%))
@@ -196,3 +196,4 @@ toSeitzSymbol m = lookup w $ map tt properMatricesForPointGroup
       = (getW . fromXYZ $ transformedCoordinate, (symbolLabel,sense,(o1,o2,o3),(p,q,r)))
     tt (_,_,symbolLabel,sense,_,[],transformedCoordinate,_)
       = (getW . fromXYZ $ transformedCoordinate, (symbolLabel,sense,(0,0,0),(p,q,r)))
+

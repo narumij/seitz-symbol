@@ -4,5 +4,5 @@ import Test.DocTest
 
 main :: IO ()
 main = doctest [
-  "src/Data/Matrix/SeitzSymbol.hs"
+--  "src/Data/Matrix/SeitzSymbol.hs"
   ]

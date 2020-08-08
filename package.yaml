@@ -42,7 +42,7 @@ tests:
     dependencies:
     - seitz-symbol
 
-  doctest:
+  seitz-symbol-doctest:
     main:                test/doctests.hs
     ghc-options:
     - -threaded

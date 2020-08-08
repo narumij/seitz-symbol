@@ -28,6 +28,7 @@ import Data.Matrix (Matrix(..))
 import Data.Matrix.AsXYZ (fromXYZ,prettyXYZ)
 import qualified Data.Matrix.SeitzSymbol.Parser
   as P (SeitzSymbol(..),seitzSymbol,toMatrix,toSeitzSymbol,toString)
+import Data.Matrix.SymmetryOperationsSymbols
 import Data.Matrix.SymmetryOperationsSymbols.Common (
   properMatricesForPointGroup,
   hexagonalMatricesForPointGroup,
@@ -55,12 +56,20 @@ parser tbl = do
 -- Right "-z+1/2,-x+1/2,-y+1/2"
 -- >>> prettyXYZ <$> fromSeitzSymbol "{ m 100 | 0 0 0 }"
 -- Right "-x,y,z"
-
+-- >>> (liftError . fromSeitzSymbol) "{ 2 010 | 1/2 1/2 1/2 }" >>= fromMatrix
+-- Right " 2 (0,1/2,0) 1/4,y,1/4"
+-- >>> (liftError . fromSeitzSymbol) "{ 3+ 111 | 1/2 1/2 1/2 }" >>= fromMatrix
+-- Right " 3+(1/2,1/2,1/2) x,x,x"
+-- >>> (liftError . fromSeitzSymbol) "{ -3+ 111 | 1/2 1/2 1/2 }" >>= fromMatrix
+-- Right "-3+ x,x,x; 1/4,1/4,1/4"
+-- >>> (liftError . fromSeitzSymbol) "{ m 100 | 0 0 0 }" >>= fromMatrix
+-- Right " m  0,y,z"
 --
 fromSeitzSymbol :: (Integral a, Read a) =>
                    SourceName
                 -> Either ParseError (Matrix (Ratio a))
 fromSeitzSymbol s = parse (parser properMatricesForPointGroup) s s
+
 
 -- | for Hexagonal
 --
@@ -70,12 +79,17 @@ fromSeitzSymbol s = parse (parser properMatricesForPointGroup) s s
 -- Right "x-y,-y,z"
 -- >>> prettyXYZ <$> fromSeitzSymbolH "{ 2 100 | 0 0 0 }"
 -- Right "x-y,-y,-z"
+-- >>> (liftError . fromSeitzSymbolH) "{ m 100 | 0 0 0 }" >>= fromMatrix
+-- Right " m  x,2x,z"
+-- >>> (liftError . fromSeitzSymbolH) "{ m 120 | 0 0 0 }" >>= fromMatrix
+-- Right " m  x,0,z"
+-- >>> (liftError . fromSeitzSymbolH) "{ 2 100 | 0 0 0 }" >>= fromMatrix
+-- Right " 2  x,0,0"
 --
 fromSeitzSymbolH :: (Integral a, Read a) =>
                      String
                   -> Either ParseError (Matrix (Ratio a))
 fromSeitzSymbolH s = parse (parser hexagonalMatricesForPointGroup) s s
-
 
 -- |
 --
