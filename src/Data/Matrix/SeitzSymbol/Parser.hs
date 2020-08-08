@@ -14,7 +14,7 @@ import Data.Matrix (Matrix(..),fromLists,toList,submatrix)
 import Data.Matrix.AsXYZ (fromXYZ)
 import qualified Data.Matrix as M ((<->),(<|>))
 
-import Data.Matrix.SymmetryOperationsSymbols.Common (properMatricesForPointGroup)
+import Data.Matrix.SymmetryOperationsSymbols.Common (properMatricesForPointGroup,MatrixForPointGroupCorrespondingSymmetryElement(..))
 
 type SeitzSymbol a = (String,String,(a,a,a),(Ratio a,Ratio a,Ratio a))
 
@@ -137,6 +137,10 @@ seitzSymbol = do
   char '}'
   return (sy,si,o,(p,q,r))
 
+toMatrix :: (Integral a,Read a) =>
+            [MatrixForPointGroupCorrespondingSymmetryElement a]
+          -> SeitzSymbol a
+          -> Maybe (Matrix (Ratio a))
 toMatrix tbl (sy,si,(o1,o2,o3),(p,q,r)) = build p q r <$> result
   where
     transformCoordinate (_,_,symbolLabel,sense,_,orientation,transformedCoordinate,_)
@@ -147,6 +151,7 @@ toMatrix tbl (sy,si,(o1,o2,o3),(p,q,r)) = build p q r <$> result
         _W = submatrix 1 3 1 3 . fromXYZ $ xyz
         _w = fromLists [[p],[q],[r]]
 
+toString :: (Integral a, Show a) => SeitzSymbol a -> String
 toString ("1",si,(o1,o2,o3),(p,q,r))
   = "{ " ++ "1"
   ++ " | "
