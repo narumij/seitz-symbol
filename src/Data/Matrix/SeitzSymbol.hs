@@ -2,14 +2,23 @@ module Data.Matrix.SeitzSymbol (
   fromSeitzSymbol
   ) where
 
-import Text.Parsec (parse,parserFail)
+import Text.Parsec
 import Text.Parsec.String (Parser)
 
 import Data.Ratio (Ratio(..))
 import Data.Matrix (Matrix(..))
 import Data.Matrix.AsXYZ (fromXYZ,prettyXYZ)
 import qualified Data.Matrix.SeitzSymbol.Parser as P (seitzSymbol,toMatrix,toSeitzSymbol,toString)
-import Data.Matrix.SymmetryOperationsSymbols.Common (properTbl,hexagonalTbl)
+import Data.Matrix.SymmetryOperationsSymbols.Common (properMatricesForPointGroup,hexagonalMatricesForPointGroup,MatrixForPointGroupCorrespondingSymmetryElement(..))
+
+parser :: (Integral a, Read a) => 
+          [MatrixForPointGroupCorrespondingSymmetryElement a]
+        -> Parser (Matrix (Ratio a))
+parser tbl = do
+  s <- P.seitzSymbol
+  case P.toMatrix tbl s of
+    Just m -> return m
+    Nothing -> parserFail "Matrix not found."
 
 -- | for all lattice type exclude hexagonal
 --
@@ -22,26 +31,17 @@ import Data.Matrix.SymmetryOperationsSymbols.Common (properTbl,hexagonalTbl)
 -- >>> prettyXYZ <$> fromSeitzSymbol "{ -3+ 111 | 1/2 1/2 1/2 }"
 -- Right "-z+1/2,-x+1/2,-y+1/2"
 --
-fromSeitzSymbol s = parse parser s s
-  where
-    parser :: (Integral a, Read a) => Parser (Matrix (Ratio a))
-    parser = do
-      s <- P.seitzSymbol
-      case P.toMatrix properTbl s of
-        Just m -> return m
-        Nothing -> parserFail "Matrix not found."
+fromSeitzSymbol :: (Integral a, Read a) =>
+                   SourceName
+                -> Either ParseError (Matrix (Ratio a))
+fromSeitzSymbol s = parse (parser properMatricesForPointGroup) s s
 
 -- | for Hexagonal
-fromSeitzSymbolH s = parse parser s s
-  where
-    parser :: (Integral a, Read a) => Parser (Matrix (Ratio a))
-    parser = do
-      s <- P.seitzSymbol
-      case P.toMatrix hexagonalTbl s of
-        Just m -> return m
-        Nothing -> parserFail "Matrix not found."
+fromSeitzSymbolH :: (Integral a, Read a) =>
+                     String
+                  -> Either ParseError (Matrix (Ratio a))
+fromSeitzSymbolH s = parse (parser hexagonalMatricesForPointGroup) s s
 
---type Tbl a = (Lattice,Symbol,SymbolLabel,Sense,SymmetryElement,Orientation a,TransformedCoordinate,AxisOrNormal a)
 
 -- |
 --

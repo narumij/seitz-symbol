@@ -14,7 +14,7 @@ import Data.Matrix (Matrix(..),fromLists,toList,submatrix)
 import Data.Matrix.AsXYZ (fromXYZ)
 import qualified Data.Matrix as M ((<->),(<|>))
 
-import Data.Matrix.SymmetryOperationsSymbols.Common (properTbl)
+import Data.Matrix.SymmetryOperationsSymbols.Common (properMatricesForPointGroup)
 
 type SeitzSymbol a = (String,String,(a,a,a),(Ratio a,Ratio a,Ratio a))
 
@@ -160,7 +160,7 @@ toString (sy,si,(o1,o2,o3),(p,q,r))
   ++ " }"
 
 toSeitzSymbol :: Integral a => Matrix (Ratio a) -> Maybe (SeitzSymbol a)
-toSeitzSymbol m = lookup w $ map tt properTbl
+toSeitzSymbol m = lookup w $ map tt properMatricesForPointGroup
   where
     getW = submatrix 1 3 1 3
     getw = submatrix 1 3 4 4
