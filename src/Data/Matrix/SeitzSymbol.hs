@@ -2,12 +2,12 @@ module Data.Matrix.SeitzSymbol (
   fromSeitzSymbol
   ) where
 
-import Text.Parsec
+import Text.Parsec (parse,parserFail)
 import Text.Parsec.String (Parser)
 
-import Data.Ratio
-import Data.Matrix
-import Data.Matrix.AsXYZ
+import Data.Ratio (Ratio(..))
+import Data.Matrix (Matrix(..))
+import Data.Matrix.AsXYZ (fromXYZ,prettyXYZ)
 import qualified Data.Matrix.SeitzSymbol.Parser as P (seitzSymbol,toMatrix,toSeitzSymbol,toString)
 import Data.Matrix.SymmetryOperationsSymbols.Common (properTbl,hexagonalTbl)
 

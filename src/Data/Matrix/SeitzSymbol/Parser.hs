@@ -5,18 +5,16 @@ module Data.Matrix.SeitzSymbol.Parser (
   toString
   ) where
 
-import Data.Ratio
+import Data.Ratio (Ratio(..),(%))
 import Text.Parsec
 import Text.Parsec.String (Parser)
 
-import Data.Ratio.Slash
+import Data.Ratio.Slash (Slash(..))
 import Data.Matrix (Matrix(..),fromLists,toList,submatrix)
-import Data.Matrix.AsXYZ
+import Data.Matrix.AsXYZ (fromXYZ)
 import qualified Data.Matrix as M ((<->),(<|>))
 
-import Numeric
-
-import Data.Matrix.SymmetryOperationsSymbols.Common
+import Data.Matrix.SymmetryOperationsSymbols.Common (properTbl)
 
 type SeitzSymbol a = (String,String,(a,a,a),(Ratio a,Ratio a,Ratio a))
 
