@@ -1,5 +1,7 @@
 module Data.Matrix.SeitzSymbol (
-  fromSeitzSymbol
+  fromSeitzSymbol,
+  fromSeitzSymbolH,
+  toSeitzSymbol,
   ) where
 
 import Text.Parsec
