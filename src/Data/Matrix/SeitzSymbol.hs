@@ -15,8 +15,8 @@ https://www.jstage.jst.go.jp/article/jcrsj/59/5/59_210/_pdf
 -}
 module Data.Matrix.SeitzSymbol (
   P.SeitzSymbol(..),
-  fromSeitzSymbol,
-  fromSeitzSymbolH,
+  fromSeitzSymbolS,
+  fromSeitzSymbolHexS,
   toSeitzSymbol,
   ) where
 
@@ -46,50 +46,50 @@ parser tbl = do
 
 -- | for all lattice type exclude hexagonal
 --
--- >>> prettyXYZ <$> fromSeitzSymbol "{ 1 | 0 0 0 }"
+-- >>> prettyXYZ <$> fromSeitzSymbolS "{ 1 | 0 0 0 }"
 -- Right "x,y,z"
--- >>> prettyXYZ <$> fromSeitzSymbol "{ 2 010 | 1/2 1/2 1/2 }"
+-- >>> prettyXYZ <$> fromSeitzSymbolS "{ 2 010 | 1/2 1/2 1/2 }"
 -- Right "-x+1/2,y+1/2,-z+1/2"
--- >>> prettyXYZ <$> fromSeitzSymbol "{ 3+ 111 | 1/2 1/2 1/2 }"
+-- >>> prettyXYZ <$> fromSeitzSymbolS "{ 3+ 111 | 1/2 1/2 1/2 }"
 -- Right "z+1/2,x+1/2,y+1/2"
--- >>> prettyXYZ <$> fromSeitzSymbol "{ -3+ 111 | 1/2 1/2 1/2 }"
+-- >>> prettyXYZ <$> fromSeitzSymbolS "{ -3+ 111 | 1/2 1/2 1/2 }"
 -- Right "-z+1/2,-x+1/2,-y+1/2"
--- >>> prettyXYZ <$> fromSeitzSymbol "{ m 100 | 0 0 0 }"
+-- >>> prettyXYZ <$> fromSeitzSymbolS "{ m 100 | 0 0 0 }"
 -- Right "-x,y,z"
--- >>> (liftError . fromSeitzSymbol) "{ 2 010 | 1/2 1/2 1/2 }" >>= fromMatrix
+-- >>> (liftError . fromSeitzSymbolS) "{ 2 010 | 1/2 1/2 1/2 }" >>= fromMatrix
 -- Right " 2 (0,1/2,0) 1/4,y,1/4"
--- >>> (liftError . fromSeitzSymbol) "{ 3+ 111 | 1/2 1/2 1/2 }" >>= fromMatrix
+-- >>> (liftError . fromSeitzSymbolS) "{ 3+ 111 | 1/2 1/2 1/2 }" >>= fromMatrix
 -- Right " 3+(1/2,1/2,1/2) x,x,x"
--- >>> (liftError . fromSeitzSymbol) "{ -3+ 111 | 1/2 1/2 1/2 }" >>= fromMatrix
+-- >>> (liftError . fromSeitzSymbolS) "{ -3+ 111 | 1/2 1/2 1/2 }" >>= fromMatrix
 -- Right "-3+ x,x,x; 1/4,1/4,1/4"
--- >>> (liftError . fromSeitzSymbol) "{ m 100 | 0 0 0 }" >>= fromMatrix
+-- >>> (liftError . fromSeitzSymbolS) "{ m 100 | 0 0 0 }" >>= fromMatrix
 -- Right " m  0,y,z"
 --
-fromSeitzSymbol :: (Integral a, Read a) =>
-                   SourceName
-                -> Either ParseError (Matrix (Ratio a))
-fromSeitzSymbol s = parse (parser properMatricesForPointGroup) s s
+fromSeitzSymbolS :: (Integral a, Read a) =>
+                    SourceName
+                 -> Either ParseError (Matrix (Ratio a))
+fromSeitzSymbolS s = parse (parser properMatricesForPointGroup) s s
 
 
 -- | for Hexagonal
 --
--- >>> prettyXYZ <$> fromSeitzSymbolH "{ m 100 | 0 0 0 }"
+-- >>> prettyXYZ <$> fromSeitzSymbolHexS "{ m 100 | 0 0 0 }"
 -- Right "y-x,y,z"
--- >>> prettyXYZ <$> fromSeitzSymbolH "{ m 120 | 0 0 0 }"
+-- >>> prettyXYZ <$> fromSeitzSymbolHexS "{ m 120 | 0 0 0 }"
 -- Right "x-y,-y,z"
--- >>> prettyXYZ <$> fromSeitzSymbolH "{ 2 100 | 0 0 0 }"
+-- >>> prettyXYZ <$> fromSeitzSymbolHexS "{ 2 100 | 0 0 0 }"
 -- Right "x-y,-y,-z"
--- >>> (liftError . fromSeitzSymbolH) "{ m 100 | 0 0 0 }" >>= fromMatrix
+-- >>> (liftError . fromSeitzSymbolHexS) "{ m 100 | 0 0 0 }" >>= fromMatrix
 -- Right " m  x,2x,z"
--- >>> (liftError . fromSeitzSymbolH) "{ m 120 | 0 0 0 }" >>= fromMatrix
+-- >>> (liftError . fromSeitzSymbolHexS) "{ m 120 | 0 0 0 }" >>= fromMatrix
 -- Right " m  x,0,z"
--- >>> (liftError . fromSeitzSymbolH) "{ 2 100 | 0 0 0 }" >>= fromMatrix
+-- >>> (liftError . fromSeitzSymbolHexS) "{ 2 100 | 0 0 0 }" >>= fromMatrix
 -- Right " 2  x,0,0"
 --
-fromSeitzSymbolH :: (Integral a, Read a) =>
+fromSeitzSymbolHexS :: (Integral a, Read a) =>
                      String
                   -> Either ParseError (Matrix (Ratio a))
-fromSeitzSymbolH s = parse (parser hexagonalMatricesForPointGroup) s s
+fromSeitzSymbolHexS s = parse (parser hexagonalMatricesForPointGroup) s s
 
 -- |
 --
