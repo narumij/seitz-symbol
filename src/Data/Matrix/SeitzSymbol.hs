@@ -17,6 +17,10 @@ import Data.Matrix.SymmetryOperationsSymbols.Common (properTbl,hexagonalTbl)
 -- Right "x,y,z"
 -- >>> prettyXYZ <$> fromSeitzSymbol "{ 2 010 | 1/2 1/2 1/2 }"
 -- Right "-x+1/2,y+1/2,-z+1/2"
+-- >>> prettyXYZ <$> fromSeitzSymbol "{ 3+ 111 | 1/2 1/2 1/2 }"
+-- Right "z+1/2,x+1/2,y+1/2"
+-- >>> prettyXYZ <$> fromSeitzSymbol "{ -3+ 111 | 1/2 1/2 1/2 }"
+-- Right "-z+1/2,-x+1/2,-y+1/2"
 --
 fromSeitzSymbol s = parse parser s s
   where
