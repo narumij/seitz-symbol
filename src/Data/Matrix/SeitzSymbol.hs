@@ -10,6 +10,7 @@ Read and Display Seitz Symbol
 [References]
 
 ネスポロ マッシモ:日本結晶学会誌 59，210-222(2017).
+
 https://www.jstage.jst.go.jp/article/jcrsj/59/5/59_210/_pdf
 
 -}
