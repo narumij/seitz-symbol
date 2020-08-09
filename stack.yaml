@@ -53,7 +53,6 @@ packages:
 extra-deps:
 - matrix-as-xyz-0.1.2.2
 - symmetry-operations-symbols-0.0.2.1
-# - location: https://github.com/narumij/symmetry-operations-symbols/archive/0.0.2.1.tar.gz
 
 # Override default flag values for local packages and extra-deps
 # flags: {}
