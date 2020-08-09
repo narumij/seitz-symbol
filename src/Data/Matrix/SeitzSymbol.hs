@@ -9,7 +9,7 @@ Read and Display Seitz Symbol
 
 [References]
 
-Michael Glazer,a Mois I. Aroyo and Andre ́: Authier Acta Cryst. (2014). A70
+A. Michael Glazer et al. Seitz symbols Acta Cryst. (2014). A70
 
 ネスポロ マッシモ:日本結晶学会誌 59，210-222(2017).
 https://www.jstage.jst.go.jp/article/jcrsj/59/5/59_210/_pdf
@@ -46,7 +46,7 @@ parser tbl = do
     Just m -> return m
     Nothing -> parserFail "Matrix not found."
 
--- | for all lattice type exclude hexagonal
+-- | for cubic, tetragonal, orthorhombic, monoclinic and triclinic crystal systems.
 --
 -- >>> prettyXYZ <$> fromSeitzSymbolS "{ 1 | 0 0 0 }"
 -- Right "x,y,z"
@@ -73,7 +73,7 @@ fromSeitzSymbolS :: (Integral a, Read a) =>
 fromSeitzSymbolS s = parse (parser properMatricesForPointGroup) s s
 
 
--- | for Hexagonal
+-- | hexagonal and trigonal crystal systems.
 --
 -- >>> prettyXYZ <$> fromSeitzSymbolHexS "{ m 100 | 0 0 0 }"
 -- Right "y-x,y,z"

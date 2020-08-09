@@ -9,7 +9,7 @@ Seitz Symbol parser and etc.
 
 [References]
 
-Michael Glazer,a Mois I. Aroyo and Andre ́: Authier Acta Cryst. (2014). A70
+A. Michael Glazer et al. Seitz symbols Acta Cryst. (2014). A70
 
 ネスポロ マッシモ:日本結晶学会誌 59，210-222(2017).
 https://www.jstage.jst.go.jp/article/jcrsj/59/5/59_210/_pdf
