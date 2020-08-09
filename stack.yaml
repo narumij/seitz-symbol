@@ -17,14 +17,17 @@
 #
 # resolver: ./custom-snapshot.yaml
 # resolver: https://example.com/snapshots/2018-01-01.yaml
-#resolver: lts-8.0
-resolver: lts-9.21
-#resolver: lts-11.8
-#resolver: lts-12.10
-#resolver: lts-16.5
-#resolver: lts-16.6
-#resolver: nightly-2020-08-03
-#resolver: lts-16.8
+#resolver: ghc-7.10.3
+#resolver: lts-6.35
+#resolver: ghc-8.0.2
+#resolver: ghc-8.2.2
+#resolver: ghc-8.4.4
+#resolver: lts-12.26
+#resolver: ghc-8.6.5
+#resolver: lts-14.27
+#resolver: ghc-8.8.3
+#resolver: ghc-8.10.1
+resolver: lts-16.8
 
 # User packages to be built.
 # Various formats can be used as shown in the example below.
@@ -48,8 +51,8 @@ packages:
 #
 # extra-deps: []
 extra-deps:
-  - matrix-as-xyz-0.1.2.1
-  - location: https://github.com/narumij/symmetry-operations-symbols/archive/0.0.2.0.dev5.tar.gz
+- matrix-as-xyz-0.1.2.2
+- symmetry-operations-symbols-0.0.2.1
 
 # Override default flag values for local packages and extra-deps
 # flags: {}

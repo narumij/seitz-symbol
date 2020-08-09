@@ -4,13 +4,65 @@
 [![Hackage page (downloads and API reference)][hackage-png]][hackage]
 [![Hackage-Deps][hackage-deps-png]][hackage-deps]
 
-## References
-
-ネスポロ マッシモ:日本結晶学会誌 59，210-222(2017).
-
-https://www.jstage.jst.go.jp/article/jcrsj/59/5/59_210/_pdf
+Read and Display Seitz Symbol
 
 ## Quickstart
+
+Make new stack project and move to project directory.
+
+```shell
+% stack new symopRepl
+% cd symopRepl
+```
+
+Edit your stack.yaml and set the following:
+
+```
+extra-deps:
+- matrix-as-xyz-0.1.2.2@sha256:9ba89fbcc029fc769eac26d10460de093c8e6bbbcb60385a3990aadd3f2a27bb,2071
+- symmetry-operations-symbols-0.0.2.1@sha256:4a443a1bd8f4ac155bb90906ee90f41f00ad7b50fd282a47498a00048124634c,2845
+- location: https://github.com/narumij/seitz-symbol/archive/0.1.0.0.dev4.tar.gz
+```
+
+Edit your package.yaml and set the following:
+
+```
+dependencies:
+- base >= 4.8 && < 5
+- matrix-as-xyz
+- seitz-symbol
+- symmetry-operations-symbols
+```
+
+Then start repl.
+
+```shell
+% stack repl
+```
+
+Setup packages and load modules.
+
+```haskell
+repl> :m Data.Matrix.AsXYZ Data.Matrix.SeitzSymbol Data.Matrix.SymmetryOperationsSymbols
+```
+
+Use like below.
+
+```haskell
+repl> prettyXYZ <$> fromSeitzSymbolS "{ 2 010 | 1/2 1/2 1/2 }"
+Right "-x+1/2,y+1/2,-z+1/2"
+
+repl>  (liftError . fromSeitzSymbolS) "{ 2 010 | 1/2 1/2 1/2 }" >>= fromMatrix
+Right " 2 (0,1/2,0) 1/4,y,1/4"
+```
+
+## References
+
+A. Michael Glazer et al. Seitz symbols Acta Cryst. (2014). A70
+
+ネスポロ マッシモ:日本結晶学会誌 59，210-222(2017).
+https://www.jstage.jst.go.jp/article/jcrsj/59/5/59_210/_pdf
+
 
  [hackage]: http://hackage.haskell.org/package/seitz-symbol
  [hackage-png]: http://img.shields.io/hackage/v/seitz-symbol.svg
