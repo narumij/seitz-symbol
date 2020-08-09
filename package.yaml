@@ -21,12 +21,10 @@ description:         Please see the README on GitHub at <https://github.com/naru
 
 dependencies:
 - base >= 4.8 && < 5
-- parsec
-- matrix
-- matrix-as-xyz >= 0.1.2 && < 0.2
-- symmetry-operations-symbols >= 0.0.2 && < 0.1
-- hspec
-- doctest
+- parsec >= 3 && < 4
+- matrix >= 0.1 && < 0.4
+- matrix-as-xyz >= 0.1.1 && < 0.2
+- symmetry-operations-symbols >= 0.0.2.1 && < 0.1
 
 library:
   source-dirs: src
@@ -41,6 +39,7 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - seitz-symbol
+    - hspec
 
   seitz-symbol-doctest:
     main:                test/doctests.hs
@@ -50,3 +49,4 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - matrix-as-xyz
+    - doctest

@@ -73,7 +73,7 @@ fromSeitzSymbolS :: (Integral a, Read a) =>
 fromSeitzSymbolS s = parse (parser properMatricesForPointGroup) s s
 
 
--- | hexagonal and trigonal crystal systems.
+-- | for hexagonal and trigonal crystal systems.
 --
 -- >>> prettyXYZ <$> fromSeitzSymbolHexS "{ m 100 | 0 0 0 }"
 -- Right "y-x,y,z"
